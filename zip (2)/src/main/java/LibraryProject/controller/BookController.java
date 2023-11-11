@@ -20,15 +20,14 @@ public class BookController {
     }
 
     @GetMapping
-    public List<Book> getAllBooks()  {
-        return bookService.getAllBooks();
-    }
+    public List<Book> getAllBooks(@RequestParam(required = false) String authorName,
+                                  @RequestParam(required = false) String bookTitle,
+                                  @RequestParam(required = false) String bookGenre,
+                                  @RequestParam(required = false) Integer yearOfPublish) {
 
-    @GetMapping("{bookId}/comments")
-    public List<Comment> getCommentsByBook(@PathVariable int bookId) {
-        return bookService.getCommentsByBookId(bookId);
+        return bookService.getAllBooks(authorName, bookTitle,
+                bookGenre, yearOfPublish);
     }
-
     @GetMapping("{bookId}")
     public Book getBookById(@PathVariable int bookId) {
         return bookService.getBookById(bookId);
@@ -39,24 +38,13 @@ public class BookController {
         return bookService.addBook(book);
     }
 
-    @PostMapping("{bookId}")
-    public Book addCommentToBook(@PathVariable int bookId, @RequestBody Comment comment) {
-        return bookService.addCommentToBook(bookId, comment);
-    }
-
-
     @DeleteMapping("{bookId}")
     public String deleteBook(@PathVariable int bookId) {
         return bookService.removeBook(bookId);
     }
 
-    @DeleteMapping("{bookId}/{commentId}")
-    public String deleteCommentFromBook(@PathVariable int bookId, @PathVariable int commentId) {
-        return bookService.deleteCommentFromBook(bookId, commentId);
-    }
-
     @PutMapping("{bookId}")
-    public Book putBook(@RequestBody Book book, @PathVariable int bookId) {
+    public Book putBook(@PathVariable int bookId, @RequestBody Book book) {
         return bookService.replaceBook(bookId, book);
     }
 }

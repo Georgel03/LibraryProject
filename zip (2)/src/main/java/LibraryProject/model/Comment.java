@@ -14,7 +14,7 @@ public class Comment {
     @Column(name = "comment_id")
     private int id;
 
-   @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+   @ManyToOne(cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
    @JsonManagedReference
    @JsonIgnore
    @JoinColumn(name = "book_comment_id")

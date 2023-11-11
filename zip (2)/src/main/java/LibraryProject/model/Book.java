@@ -106,20 +106,6 @@ public class Book {
         }
     }
 
-//    public Book replaceComment(Comment newComment) {
-//        if (this.comments == null) {
-//            this.comments = new ArrayList<>();
-//        }
-//        else {
-//            Optional<Comment> foundComment = this.comments
-//                    .stream()
-//                    .filter(comment -> comment.getId() == commentId)
-//                    .findFirst();
-//            if (foundComment.isPresent()) {
-//                newComment.setId(commentId);
-//            }
-//        }
-//    }
 
     public List<Comment> getComments() {
         return comments;
