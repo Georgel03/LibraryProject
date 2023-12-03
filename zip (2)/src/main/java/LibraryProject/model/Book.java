@@ -94,6 +94,7 @@ public class Book {
         }
         else {
             this.comments.add(comment);
+            comment.setBook(this);
         }
     }
 
@@ -103,6 +104,7 @@ public class Book {
         }
         else {
             this.comments.remove(comment);
+            comment.setBook(null);
         }
     }
 

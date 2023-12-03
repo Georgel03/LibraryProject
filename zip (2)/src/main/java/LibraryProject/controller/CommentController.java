@@ -4,6 +4,7 @@ package LibraryProject.controller;
 import LibraryProject.model.Book;
 import LibraryProject.model.Comment;
 import LibraryProject.model.CommentType;
+import LibraryProject.service.BookService;
 import LibraryProject.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -11,14 +12,18 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("comments")
 public class CommentController {
 
     private CommentService commentService;
 
+    private BookService bookService;
+
     @Autowired
-    public CommentController(CommentService commentService) {
+    public CommentController(CommentService commentService, BookService bookService) {
         this.commentService = commentService;
+        this.bookService = bookService;
     }
 
     @GetMapping("{commentId}")
@@ -32,6 +37,11 @@ public class CommentController {
         return commentService.getAllComments(book, commentType);
     }
 
+    @GetMapping("book/{bookId}")
+    public List<Comment> getCommentsByBookId(@PathVariable int bookId) {
+        return commentService.getCommentsByBookId(bookId);
+    }
+
     @PostMapping("{bookId}")
     public Comment addCommentToBook(@PathVariable int bookId, @RequestBody Comment comment) {
         return commentService.addCommentToBook(bookId, comment);
@@ -42,9 +52,9 @@ public class CommentController {
         return commentService.deleteComment(commentId);
     }
 
-    @PutMapping
-    public Comment replaceComment(@RequestBody Comment comment) {
-        return commentService.replaceComment(comment);
+    @PutMapping("{commentId}")
+    public Comment replaceComment(@PathVariable int commentId, @RequestBody Comment comment) {
+        return commentService.replaceComment(commentId, comment);
     }
 
 }

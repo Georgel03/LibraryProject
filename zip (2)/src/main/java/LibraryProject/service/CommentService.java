@@ -36,6 +36,16 @@ public class CommentService {
        }
     }
 
+    public List<Comment> getCommentsByBookId(int bookId) {
+        Optional<Book> foundBook = bookRepository.findById(bookId);
+        if (foundBook.isPresent()) {
+            return foundBook.get().getComments();
+        }
+        else {
+            throw new EntityNotFoundException("Nu a fost gasita cartea cu id " + bookId, bookId);
+        }
+    }
+
     public List<Comment> getAllComments(Book book, CommentType commentType) {
 
         if (book != null) {
@@ -85,35 +95,17 @@ public class CommentService {
     }
 
 
-    public Comment replaceComment(Comment comment) {
-        Comment finalComment;
-
-        if (comment.getId() != 0) {
-            Optional<Comment> foundComment = commentRepository.findById(comment.getId());
+    public Comment replaceComment(int commentId, Comment comment) {
+            Optional<Comment> foundComment = commentRepository.findById(commentId);
             if (foundComment.isPresent()) {
-                Comment commentFromDB = foundComment.get();
-
-                if (comment.getCommentType() != null) {
-                    commentFromDB.setCommentType(comment.getCommentType());
-                }
-                if (comment.getBook() != null) {
-                    commentFromDB.setBook(comment.getBook());
-                }
-                if (comment.getContent() != null) {
-                    commentFromDB.setContent(comment.getContent());
-                }
-
-                finalComment = commentRepository.save(commentFromDB);
-
-            } else {
-                finalComment = commentRepository.save(comment);
+                comment.setId(commentId);
+                comment.setBook(foundComment.get().getBook());
+                return commentRepository.save(comment);
             }
-        } else {
+            else {
+                throw new EntityNotFoundException("Nu a fost inlocuita comentariul cu id " + commentId, commentId);
+            }
 
-            finalComment = commentRepository.save(comment);
-        }
-
-        return finalComment;
     }
 
 

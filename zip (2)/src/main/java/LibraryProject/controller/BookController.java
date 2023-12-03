@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("books")
 public class BookController {
 
@@ -32,6 +33,7 @@ public class BookController {
     public Book getBookById(@PathVariable int bookId) {
         return bookService.getBookById(bookId);
     }
+
 
     @PostMapping
     public Book addBook(@RequestBody Book book) {

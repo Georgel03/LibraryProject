@@ -51,17 +51,10 @@ public class BookService {
                 .filter(book -> yearOfPublish == null || book.getYearOfPublish() == yearOfPublish)
                 .collect(Collectors.toList());
     }
-    public List<Comment> getCommentsByBookId(int bookId) {
-        Optional<Book> foundBook = bookRepository.findById(bookId);
-        if (foundBook.isPresent()) {
-            return foundBook.get().getComments();
-        }
-        else {
-            throw new EntityNotFoundException("Nu a fost gasita cartea cu id " + bookId, bookId);
-        }
-    }
+
 
     public Book addBook(Book book) {
+//        book.setComments(new ArrayList<>());
         return bookRepository.save(book);
     }
 
